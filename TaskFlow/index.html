@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskFlow</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ AUTH SCREEN (shown when logged out) ============ -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="brand"><svg class="icon icon-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c9 0 14-5 14-15 0-1 0-2-.2-3C10 4 4 10 4 19c0 .7.1 1.4.2 2z"/><path d="M5 21c1-5 4-9 9-12"/></svg> TaskFlow</div>
+
+    <!-- First time / create account -->
+    <form id="signupForm" class="auth-form">
+      <h2>Welcome! Let's get to know you</h2>
+      <p class="sub">This info will show up on your profile.</p>
+
+      <label for="suName">Your name</label>
+      <input id="suName" type="text" placeholder="e.g. Ayesha Khan" required>
+
+      <label for="suUsername">Choose a username</label>
+      <input id="suUsername" type="text" placeholder="e.g. ayesha" required>
+
+      <label for="suEmail">Email (optional)</label>
+      <input id="suEmail" type="email" placeholder="e.g. ayesha@email.com">
+
+      <label for="suPassword">Choose a password</label>
+      <input id="suPassword" type="password" placeholder="Enter a password" required>
+
+      <p id="suError" class="form-error"></p>
+
+      <button type="submit" class="btn-primary">Get Started</button>
+      <p class="switch-line">Already have an account? <a id="toLogin" href="#">Log in</a></p>
+    </form>
+
+    <!-- Returning user -->
+    <form id="loginForm" class="auth-form hidden">
+      <h2>Welcome back</h2>
+      <p class="sub">Log in to see your tasks.</p>
+
+      <label for="liUsername">Username</label>
+      <input id="liUsername" type="text" placeholder="Your username" required>
+
+      <label for="liPassword">Password</label>
+      <input id="liPassword" type="password" placeholder="Your password" required>
+
+      <p id="liError" class="form-error"></p>
+
+      <button type="submit" class="btn-primary">Log In</button>
+      <p class="switch-line">New here? <a id="toSignup" href="#">Create an account</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ============ MAIN APP (shown when logged in) ============ -->
+<div id="mainApp" class="main-app hidden">
+
+  <aside class="sidebar">
+    <div class="logo"><svg class="icon icon-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c9 0 14-5 14-15 0-1 0-2-.2-3C10 4 4 10 4 19c0 .7.1 1.4.2 2z"/><path d="M5 21c1-5 4-9 9-12"/></svg> <span>TaskFlow</span></div>
+    <nav class="nav">
+      <button class="nav-btn active" data-page="home"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg> <span>Home</span></button>
+      <button class="nav-btn" data-page="calendar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="9.5" x2="21" y2="9.5"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg> <span>Calendar</span></button>
+      <button class="nav-btn" data-page="stats"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="20" x2="5" y2="13"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/></svg> <span>Stats</span></button>
+      <button class="nav-btn" data-page="profile"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-6 8-6s8 1.6 8 6"/></svg> <span>Profile</span></button>
+    </nav>
+    <button id="logoutBtn" class="logout-btn"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> <span>Log out</span></button>
+    <div class="sidebar-footer">
+      <div class="plant"><svg class="icon icon-leaf-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c9 0 14-5 14-15 0-1 0-2-.2-3C10 4 4 10 4 19c0 .7.1 1.4.2 2z"/><path d="M5 21c1-5 4-9 9-12"/></svg></div>
+      <p>Small steps make<br>big progress!</p>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ---------- HOME PAGE ---------- -->
+    <section id="page-home" class="page">
+      <div class="page-grid">
+        <div class="col-main">
+          <header class="topbar">
+            <div>
+              <p class="greeting-label" id="greetingLabel">Good Morning,</p>
+              <h1><span id="greetingName">Friend</span> <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="7" y2="7"/><line x1="17" y1="17" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="7" y2="17"/><line x1="17" y1="7" x2="19.1" y2="4.9"/></svg></h1>
+              <p class="tagline">Small steps make big progress!</p>
+            </div>
+          </header>
+
+          <div class="add-task-bar">
+            <input id="newTaskText" type="text" placeholder="Add a new task...">
+            <select id="newTaskCategory">
+              <option value="Work">Work</option>
+              <option value="Study">Study</option>
+              <option value="Health">Health</option>
+              <option value="Personal">Personal</option>
+            </select>
+            <select id="newTaskPriority">
+              <option value="Low">Low priority</option>
+              <option value="Medium" selected>Medium priority</option>
+              <option value="High">High priority</option>
+            </select>
+            <input id="newTaskTime" type="time">
+            <button id="addTaskBtn" class="btn-add">+ Add</button>
+          </div>
+
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="today">Today</button>
+            <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+            <button class="tab-btn" data-tab="completed">Completed</button>
+          </div>
+
+          <ul id="taskList" class="task-list"></ul>
+          <p id="emptyState" class="empty-state hidden">Nothing here yet — add a task above to get started.</p>
+        </div>
+
+        <div class="col-side">
+          <div class="card progress-card">
+            <div class="card-row">
+              <h3>Today's Progress</h3>
+              <span id="progressFraction">0 of 0 tasks</span>
+            </div>
+            <div class="progress-bar-track">
+              <div id="progressBarFill" class="progress-bar-fill" style="width:0%"></div>
+            </div>
+            <p id="progressPercent" class="progress-percent">0%</p>
+          </div>
+
+          <div class="mini-stat-grid">
+            <div class="mini-stat">
+              <span class="mini-icon done"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg></span>
+              <div><strong id="miniCompleted">0</strong><p>Completed</p></div>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-icon pending"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span>
+              <div><strong id="miniPending">0</strong><p>Pending</p></div>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-icon total"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="9" y1="11.5" x2="15" y2="11.5"/><line x1="9" y1="15.5" x2="15" y2="15.5"/></svg></span>
+              <div><strong id="miniTotal">0</strong><p>Total</p></div>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-icon high"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15 9 22 9.5 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.5 9 9"/></svg></span>
+              <div><strong id="miniHigh">0</strong><p>High Priority</p></div>
+            </div>
+          </div>
+
+          <div class="card quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="quick-grid">
+              <button class="quick-btn" data-page="home"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Task</button>
+              <button class="quick-btn" data-page="calendar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="9.5" x2="21" y2="9.5"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg> Calendar</button>
+              <button class="quick-btn" data-page="stats"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="20" x2="5" y2="13"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/></svg> Stats</button>
+              <button class="quick-btn" data-page="profile"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-6 8-6s8 1.6 8 6"/></svg> Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- CALENDAR PAGE ---------- -->
+    <section id="page-calendar" class="page hidden">
+      <header class="topbar">
+        <h1>Calendar</h1>
+        <p class="tagline">See what's coming up.</p>
+      </header>
+
+      <div class="card calendar-card">
+        <div class="calendar-header">
+          <button id="prevMonth" class="btn-nav">‹</button>
+          <h2 id="calendarMonthLabel">Month Year</h2>
+          <button id="nextMonth" class="btn-nav">›</button>
+        </div>
+        <div class="calendar-weekdays">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+
+      <div class="card">
+        <h3 id="selectedDayLabel">Tasks</h3>
+        <ul id="selectedDayTasks" class="task-list"></ul>
+        <p id="selectedDayEmpty" class="empty-state hidden">No tasks on this day.</p>
+      </div>
+    </section>
+
+    <!-- ---------- STATS PAGE ---------- -->
+    <section id="page-stats" class="page hidden">
+      <header class="topbar">
+        <h1>Stats</h1>
+        <p class="tagline">Here's how you're doing.</p>
+      </header>
+
+      <div class="stat-card-grid">
+        <div class="card stat-card">
+          <span class="stat-icon done"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg></span>
+          <strong id="statCompleted">0</strong>
+          <p>Tasks Completed</p>
+        </div>
+        <div class="card stat-card">
+          <span class="stat-icon created"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span>
+          <strong id="statCreated">0</strong>
+          <p>Tasks Created</p>
+        </div>
+        <div class="card stat-card">
+          <span class="stat-icon rate"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span>
+          <strong id="statRate">0%</strong>
+          <p>Completion Rate</p>
+        </div>
+        <div class="card stat-card">
+          <span class="stat-icon streak"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c1.2 3.2-2.8 4.4-2.8 8a2.8 2.8 0 0 0 5.6 0c0-1-.4-1.8-.9-2.6 1.3.2 3.1 2.4 3.1 5.1a5 5 0 0 1-10 0c0-4.3 3.3-6.8 5-10.5z"/></svg></span>
+          <strong id="statStreak">0</strong>
+          <p>Current Streak</p>
+        </div>
+      </div>
+
+      <div class="stats-charts-grid">
+        <div class="card">
+          <h3>Task Overview</h3>
+          <div class="donut-wrap">
+            <div id="donutChart" class="donut"></div>
+            <div class="donut-legend">
+              <p><span class="dot done"></span> Completed <b id="legendCompleted">0</b></p>
+              <p><span class="dot pending"></span> Pending <b id="legendPending">0</b></p>
+              <p><span class="dot overdue"></span> Overdue <b id="legendOverdue">0</b></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Tasks Completed by Day</h3>
+          <div id="barChart" class="bar-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PROFILE PAGE ---------- -->
+    <section id="page-profile" class="page hidden">
+      <header class="topbar">
+        <h1>Profile</h1>
+        <p class="tagline">Your account details.</p>
+      </header>
+
+      <div class="card profile-card">
+        <div class="profile-avatar" id="profileAvatar">A</div>
+        <form id="profileForm">
+          <label for="pfName">Full name</label>
+          <input id="pfName" type="text" required>
+
+          <label for="pfUsername">Username</label>
+          <input id="pfUsername" type="text" disabled>
+
+          <label for="pfEmail">Email</label>
+          <input id="pfEmail" type="email" placeholder="Add an email">
+
+          <label for="pfPassword">New password (leave blank to keep current)</label>
+          <input id="pfPassword" type="password" placeholder="••••••••">
+
+          <p id="pfMessage" class="form-success hidden">Saved!</p>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
